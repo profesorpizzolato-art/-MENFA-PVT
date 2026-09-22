@@ -18,3 +18,6 @@ python
 from nucleo.unidades import psi_a_bar
 
 psi_a_bar(2850)
+from nucleo.unidades import barril_a_m3
+
+barril_a_m3(10)
