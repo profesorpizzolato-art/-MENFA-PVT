@@ -520,95 +520,63 @@ with col5:
         f"{componente.presion_critica:.2f} bar",
     )
 # ============================================================
-# CONSTRUCTOR DE FLUIDO PVT
+# CREAR FLUIDO
 # ============================================================
 
-st.divider()
+if st.button(
+    "Crear fluido PVT",
+    type="primary",
+):
 
-st.header("Constructor de Fluido PVT")
+    try:
 
-st.write(
-    "Defina la composición molar del fluido "
-    "para crear un modelo PVT."
-)
+        fluido = Fluido(
+            nombre=nombre_fluido,
+            composicion=composicion,
+        )
 
-nombre_fluido = st.text_input(
-    "Nombre del fluido",
-    value="FLUIDO-MENFA-001",
-)
+        fluido.validar()
 
-st.subheader("Composición molar")
+        mezcla = MezclaPVT(
+            fluido=fluido,
+            biblioteca=BIBLIOTECA_COMPONENTES,
+        )
 
-col1, col2 = st.columns(2)
+        st.success(
+            f"Fluido **{fluido.nombre}** creado correctamente."
+        )
 
-with col1:
+        col1, col2 = st.columns(2)
 
-    fraccion_c1 = st.number_input(
-        "C1 — Metano",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.70,
-        step=0.01,
-    )
+        with col1:
+            st.metric(
+                "Componentes activos",
+                mezcla.numero_componentes(),
+            )
 
-    fraccion_c2 = st.number_input(
-        "C2 — Etano",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.10,
-        step=0.01,
-    )
+        with col2:
+            st.metric(
+                "Peso molecular",
+                f"{mezcla.peso_molecular_mezcla():.4f} g/mol",
+            )
 
-    fraccion_c3 = st.number_input(
-        "C3 — Propano",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.05,
-        step=0.01,
-    )
+        st.subheader("Componentes de la mezcla")
 
-    fraccion_i_c4 = st.number_input(
-        "i-C4 — Isobutano",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.02,
-        step=0.01,
-    )
+        for item in mezcla.componentes_activos():
 
-with col2:
+            componente = item.componente
 
-    fraccion_n_c4 = st.number_input(
-        "n-C4 — n-Butano",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.03,
-        step=0.01,
-    )
+            st.write(
+                f"**{componente.numero_componente}** — "
+                f"{componente.nombre} — "
+                f"{item.fraccion_molar * 100:.3f} %"
+            )
 
-    fraccion_co2 = st.number_input(
-        "CO2 — Dióxido de carbono",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.05,
-        step=0.01,
-    )
+    except ValueError as error:
 
-    fraccion_n2 = st.number_input(
-        "N2 — Nitrógeno",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.00,
-        step=0.01,
-    )
-
-    fraccion_h2s = st.number_input(
-        "H2S — Sulfuro de hidrógeno",
-        min_value=0.0,
-        max_value=1.0,
-        value=0.00,
-        step=0.01,
-    )
-
+        st.error(
+            f"No se pudo construir la mezcla: {error}"
+        )
 
 # ============================================================
 # COMPOSICIÓN
