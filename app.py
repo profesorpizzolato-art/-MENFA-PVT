@@ -30,6 +30,7 @@ from nucleo.validadores import (
 from datos.componentes.biblioteca import (
     BIBLIOTECA_COMPONENTES,
 )
+from modelos.fluido import Fluido
 # ============================================================
 # CONFIGURACIÓN
 # ============================================================
