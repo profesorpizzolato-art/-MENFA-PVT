@@ -14,3 +14,7 @@ streamlit run aplicacion.py
 ║                                              ║
 ╚══════════════════════════════════════════════╝
 streamlit run app.py
+python
+from nucleo.unidades import psi_a_bar
+
+psi_a_bar(2850)
