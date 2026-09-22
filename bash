@@ -13,3 +13,4 @@ streamlit run aplicacion.py
 ║ Versión: 0.1.0                               ║
 ║                                              ║
 ╚══════════════════════════════════════════════╝
+streamlit run app.py
