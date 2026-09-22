@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 
 from nucleo.configuracion import (
@@ -11,7 +10,6 @@ from nucleo.configuracion import (
     DISEÑO_PAGINA,
     MENU_LATERAL_ABIERTO,
 )
-
 
 # ============================================================
 # CONFIGURACIÓN DE STREAMLIT
@@ -28,7 +26,6 @@ st.set_page_config(
     ),
 )
 
-
 # ============================================================
 # ENCABEZADO
 # ============================================================
@@ -38,7 +35,6 @@ st.title(f"{ICONO} {NOMBRE_SISTEMA}")
 st.subheader(NOMBRE_COMPLETO)
 
 st.write(DESCRIPCION)
-
 
 # ============================================================
 # ESTADO DEL SISTEMA
@@ -51,21 +47,20 @@ columna1, columna2, columna3 = st.columns(3)
 with columna1:
     st.metric(
         label="Estado del sistema",
-        value="OPERATIVO"
+        value="OPERATIVO",
     )
 
 with columna2:
     st.metric(
         label="Versión",
-        value=VERSION
+        value=VERSION,
     )
 
 with columna3:
     st.metric(
         label="Módulos activos",
-        value="0"
+        value="0",
     )
-
 
 # ============================================================
 # MÓDULOS
@@ -95,7 +90,6 @@ modulos = [
 for numero, nombre in modulos:
     st.write(f"**{numero} — {nombre}**")
 
-
 # ============================================================
 # PIE DE APLICACIÓN
 # ============================================================
@@ -105,4 +99,3 @@ st.divider()
 st.caption(
     f"{NOMBRE_SISTEMA} | Versión {VERSION} | {EMPRESA}"
 )
-```
