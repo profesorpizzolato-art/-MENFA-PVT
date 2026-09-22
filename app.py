@@ -520,6 +520,140 @@ with col5:
         f"{componente.presion_critica:.2f} bar",
     )
 # ============================================================
+# CONSTRUCTOR DE FLUIDO PVT
+# ============================================================
+
+st.divider()
+
+st.header("Constructor de Fluido PVT")
+
+st.write(
+    "Defina la composición molar del fluido "
+    "para crear un modelo PVT."
+)
+
+nombre_fluido = st.text_input(
+    "Nombre del fluido",
+    value="FLUIDO-MENFA-001",
+)
+
+st.subheader("Composición molar")
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    fraccion_c1 = st.number_input(
+        "C1 — Metano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.70,
+        step=0.01,
+    )
+
+    fraccion_c2 = st.number_input(
+        "C2 — Etano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.10,
+        step=0.01,
+    )
+
+    fraccion_c3 = st.number_input(
+        "C3 — Propano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.05,
+        step=0.01,
+    )
+
+    fraccion_i_c4 = st.number_input(
+        "i-C4 — Isobutano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.02,
+        step=0.01,
+    )
+
+with col2:
+
+    fraccion_n_c4 = st.number_input(
+        "n-C4 — n-Butano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.03,
+        step=0.01,
+    )
+
+    fraccion_co2 = st.number_input(
+        "CO2 — Dióxido de carbono",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.10,
+        step=0.01,
+    )
+
+    fraccion_n2 = st.number_input(
+        "N2 — Nitrógeno",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.00,
+        step=0.01,
+    )
+
+    fraccion_h2s = st.number_input(
+        "H2S — Sulfuro de hidrógeno",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.00,
+        step=0.01,
+    )
+
+
+# ============================================================
+# COMPOSICIÓN DEL FLUIDO
+# ============================================================
+
+composicion = {
+    "C1": fraccion_c1,
+    "C2": fraccion_c2,
+    "C3": fraccion_c3,
+    "i-C4": fraccion_i_c4,
+    "n-C4": fraccion_n_c4,
+    "CO2": fraccion_co2,
+    "N2": fraccion_n2,
+    "H2S": fraccion_h2s,
+}
+
+suma_composicion = sum(composicion.values())
+
+st.divider()
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.metric(
+        "Suma de fracciones molares",
+        f"{suma_composicion:.6f}",
+    )
+
+with col2:
+
+    if abs(suma_composicion - 1.0) <= 1e-6:
+
+        st.success(
+            "Composición válida"
+        )
+
+    else:
+
+        st.error(
+            "La composición debe sumar exactamente 1,000000."
+        )
+
+
+# ============================================================
 # CREAR FLUIDO
 # ============================================================
 
@@ -549,18 +683,22 @@ if st.button(
         col1, col2 = st.columns(2)
 
         with col1:
+
             st.metric(
                 "Componentes activos",
                 mezcla.numero_componentes(),
             )
 
         with col2:
+
             st.metric(
                 "Peso molecular",
                 f"{mezcla.peso_molecular_mezcla():.4f} g/mol",
             )
 
-        st.subheader("Componentes de la mezcla")
+        st.subheader(
+            "Componentes de la mezcla"
+        )
 
         for item in mezcla.componentes_activos():
 
@@ -576,82 +714,4 @@ if st.button(
 
         st.error(
             f"No se pudo construir la mezcla: {error}"
-        )
-
-# ============================================================
-# COMPOSICIÓN
-# ============================================================
-
-composicion = {
-    "C1": fraccion_c1,
-    "C2": fraccion_c2,
-    "C3": fraccion_c3,
-    "i-C4": fraccion_i_c4,
-    "n-C4": fraccion_n_c4,
-    "CO2": fraccion_co2,
-    "N2": fraccion_n2,
-    "H2S": fraccion_h2s,
-}
-
-suma = sum(
-    composicion.values()
-)
-
-st.metric(
-    "Suma de fracciones molares",
-    f"{suma:.6f}",
-)
-
-
-# ============================================================
-# CREACIÓN DEL FLUIDO
-# ============================================================
-
-if st.button(
-    "Crear fluido PVT",
-    type="primary",
-):
-
-    try:
-
-        fluido = Fluido(
-            nombre=nombre_fluido,
-            composicion=composicion,
-        )
-
-        fluido.validar()
-
-        st.success(
-            f"Fluido **{fluido.nombre}** creado correctamente."
-        )
-
-        st.write(
-            f"Componentes definidos: "
-            f"**{fluido.numero_componentes()}**"
-        )
-
-        st.write(
-            f"Suma de composición: "
-            f"**{fluido.suma_composicion():.6f}**"
-        )
-
-        st.subheader(
-            "Composición del fluido"
-        )
-
-        for componente, fraccion in (
-            fluido.composicion.items()
-        ):
-
-            if fraccion > 0:
-
-                st.write(
-                    f"**{componente}** — "
-                    f"{fraccion * 100:.3f} %"
-                )
-
-    except ValueError as error:
-
-        st.error(
-            f"No se pudo crear el fluido: {error}"
         )
