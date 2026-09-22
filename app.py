@@ -99,3 +99,54 @@ st.divider()
 st.caption(
     f"{NOMBRE_SISTEMA} | Versión {VERSION} | {EMPRESA}"
 )
+# ============================================================
+# HERRAMIENTAS DEL SISTEMA
+# ============================================================
+
+st.divider()
+
+st.header("Herramientas")
+
+st.subheader("Conversor de Unidades")
+
+tipo_conversion = st.selectbox(
+    "Tipo de conversión",
+    [
+        "Presión",
+        "Temperatura",
+        "Volumen",
+        "Longitud",
+    ],
+)
+
+if tipo_conversion == "Presión":
+
+    from nucleo.unidades import (
+        psi_a_bar,
+        bar_a_psi,
+    )
+
+    valor = st.number_input(
+        "Valor",
+        min_value=0.0,
+        value=100.0,
+    )
+
+    unidad = st.selectbox(
+        "Unidad de origen",
+        ["psi", "bar"],
+    )
+
+    if unidad == "psi":
+        resultado = psi_a_bar(valor)
+
+        st.success(
+            f"{valor:.4f} psi = {resultado:.4f} bar"
+        )
+
+    else:
+        resultado = bar_a_psi(valor)
+
+        st.success(
+            f"{valor:.4f} bar = {resultado:.4f} psi"
+        )
