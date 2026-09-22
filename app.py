@@ -21,7 +21,12 @@ from nucleo.unidades import (
     pie_a_metro,
     metro_a_pie,
 )
-
+from nucleo.validadores import (
+    validar_presion_pa,
+    validar_temperatura_k,
+    validar_fraccion,
+    validar_composicion,
+)
 
 # ============================================================
 # CONFIGURACIÓN
@@ -274,3 +279,186 @@ st.divider()
 st.caption(
     f"{NOMBRE_SISTEMA} | Versión {VERSION} | {EMPRESA}"
 )
+# ============================================================
+# VALIDACIÓN DE DATOS
+# ============================================================
+
+st.divider()
+
+st.header("Validación de Datos")
+
+st.write(
+    "Herramientas para verificar la consistencia "
+    "de los datos ingresados al sistema."
+)
+
+tipo_validacion = st.selectbox(
+    "Tipo de validación",
+    [
+        "Presión",
+        "Temperatura",
+        "Fracción",
+        "Composición molar",
+    ],
+)
+
+
+if tipo_validacion == "Presión":
+
+    from nucleo.unidades import psi_a_pa
+
+    presion = st.number_input(
+        "Presión [psi]",
+        min_value=0.0,
+        value=100.0,
+    )
+
+    if st.button("Validar presión"):
+
+        try:
+
+            presion_pa = psi_a_pa(presion)
+
+            validar_presion_pa(
+                presion_pa
+            )
+
+            st.success(
+                "✓ Presión válida."
+            )
+
+        except ValueError as error:
+
+            st.error(
+                f"✗ {error}"
+            )
+
+
+elif tipo_validacion == "Temperatura":
+
+    from nucleo.unidades import celsius_a_kelvin
+
+    temperatura = st.number_input(
+        "Temperatura [°C]",
+        value=25.0,
+    )
+
+    if st.button("Validar temperatura"):
+
+        try:
+
+            temperatura_k = (
+                celsius_a_kelvin(
+                    temperatura
+                )
+            )
+
+            validar_temperatura_k(
+                temperatura_k
+            )
+
+            st.success(
+                "✓ Temperatura válida."
+            )
+
+        except ValueError as error:
+
+            st.error(
+                f"✗ {error}"
+            )
+
+
+elif tipo_validacion == "Fracción":
+
+    fraccion = st.number_input(
+        "Fracción",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+    )
+
+    if st.button("Validar fracción"):
+
+        try:
+
+            validar_fraccion(
+                fraccion
+            )
+
+            st.success(
+                "✓ Fracción válida."
+            )
+
+        except ValueError as error:
+
+            st.error(
+                f"✗ {error}"
+            )
+
+
+elif tipo_validacion == "Composición molar":
+
+    st.write(
+        "Ingrese una composición simplificada."
+    )
+
+    c1 = st.number_input(
+        "C1 — Metano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.70,
+    )
+
+    c2 = st.number_input(
+        "C2 — Etano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.10,
+    )
+
+    c3 = st.number_input(
+        "C3 — Propano",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.05,
+    )
+
+    c7 = st.number_input(
+        "C7+",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.15,
+    )
+
+    composicion = {
+        "C1": c1,
+        "C2": c2,
+        "C3": c3,
+        "C7+": c7,
+    }
+
+    suma = sum(composicion.values())
+
+    st.write(
+        f"**Suma de fracciones:** "
+        f"{suma:.6f}"
+    )
+
+    if st.button("Validar composición"):
+
+        try:
+
+            validar_composicion(
+                composicion
+            )
+
+            st.success(
+                "✓ Composición válida. "
+                "La suma de las fracciones es 1."
+            )
+
+        except ValueError as error:
+
+            st.error(
+                f"✗ {error}"
+            )
