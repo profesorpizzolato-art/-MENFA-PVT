@@ -1,34 +1,14 @@
 menfa-pvt/
-│
-├── aplicacion.py
+├── app.py
 ├── requisitos.txt
-├── LEEME.md
 │
 ├── nucleo/
 │   ├── __init__.py
 │   ├── configuracion.py
 │   ├── constantes.py
 │   ├── unidades.py
-│   ├── validadores.py
-│   └── excepciones.py
+│   └── validadores.py
 │
-├── modelos/
-│   ├── __init__.py
-│   ├── fluido.py
-│   ├── componente.py
-│   └── resultado.py
-│
-├── motores/
-│   └── __init__.py
-│
-├── servicios/
-│   └── __init__.py
-│
-├── interfaz/
-│   └── __init__.py
-│
-├── datos/
-│   └── componentes/
-│
-└── pruebas/
-    └── __init__.py
+└── modelos/
+    ├── __init__.py
+    └── componente.py
