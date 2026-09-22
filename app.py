@@ -27,7 +27,9 @@ from nucleo.validadores import (
     validar_fraccion,
     validar_composicion,
 )
-
+from datos.componentes.biblioteca import (
+    BIBLIOTECA_COMPONENTES,
+)
 # ============================================================
 # CONFIGURACIÓN
 # ============================================================
@@ -462,3 +464,55 @@ elif tipo_validacion == "Composición molar":
             st.error(
                 f"✗ {error}"
             )
+# ============================================================
+# BIBLIOTECA DE COMPONENTES
+# ============================================================
+
+st.divider()
+
+st.header("Biblioteca de Componentes")
+
+componente_seleccionado = st.selectbox(
+    "Seleccionar componente",
+    list(BIBLIOTECA_COMPONENTES.keys()),
+)
+
+componente = BIBLIOTECA_COMPONENTES[
+    componente_seleccionado
+]
+
+st.subheader(componente.nombre)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric(
+        "Fórmula",
+        componente.formula,
+    )
+
+with col2:
+    st.metric(
+        "Peso molecular",
+        f"{componente.peso_molecular:.3f} g/mol",
+    )
+
+with col3:
+    st.metric(
+        "Factor acéntrico",
+        f"{componente.factor_acenico:.4f}",
+    )
+
+col4, col5 = st.columns(2)
+
+with col4:
+    st.metric(
+        "Temperatura crítica",
+        f"{componente.temperatura_critica:.2f} K",
+    )
+
+with col5:
+    st.metric(
+        "Presión crítica",
+        f"{componente.presion_critica:.2f} bar",
+    )
