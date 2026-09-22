@@ -31,6 +31,8 @@ from datos.componentes.biblioteca import (
     BIBLIOTECA_COMPONENTES,
 )
 from modelos.fluido import Fluido
+from modelos.mezcla import MezclaPVT
+
 # ============================================================
 # CONFIGURACIÓN
 # ============================================================
