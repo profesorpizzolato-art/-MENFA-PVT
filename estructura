@@ -1,4 +1,5 @@
-menfa-pvt/
+-menfa-pvt/
+│
 ├── app.py
 ├── requisitos.txt
 │
@@ -9,6 +10,13 @@ menfa-pvt/
 │   ├── unidades.py
 │   └── validadores.py
 │
-└── modelos/
+├── modelos/
+│   ├── __init__.py
+│   └── componente.py
+│
+└── datos/
     ├── __init__.py
-    └── componente.py
+    │
+    └── componentes/
+        ├── __init__.py
+        └── biblioteca.py
